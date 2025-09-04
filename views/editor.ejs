@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Editor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* full viewport height */
+        }
+
+       
+
+        .main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* split screen */
+            height: calc(100vh - 60px); /* subtract header height */
+        }
+
+        .editor {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 0.5rem;
+            font-size: 14px;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+/*        .preview {
+            height: 100%;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+*/
+
+	.preview {
+	  position: relative;
+	}
+
+	.preview::after {
+	  content: "";
+	  position: absolute;
+	  inset: 0;
+	  background: transparent;
+	  pointer-events: all; /* catch clicks */
+	}
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        /* User menu */
+        .user-menu {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 12px;
+        }
+
+        .user-avatar {
+          cursor: pointer;
+          padding: 6px 12px;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          border-radius: 9999px;
+          font-weight: bold;
+          user-select: none;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          top: 100%;
+          right: 0;
+          margin-top: 4px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          min-width: 140px;
+          z-index: 999;
+        }
+
+        .dropdown-content.show {
+          display: block;
+        }
+
+        .dropdown-content a {
+          display: block;
+          padding: 10px;
+          color: #333;
+          text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+          background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<%- include('partials/header') %>
+
+
+<body>
+  <div class="main" style="display:flex; gap:20px; padding:20px;">
+    <!-- Editor Section -->
+    <div class="editor" style="flex:1; display:flex; flex-direction:column;">
+      <form id="editorForm" method="POST" action="/editor/save" style="flex:1; display:flex; flex-direction:column;">
+        
+        <h3>
+          Ever wonder why we phish you so much at SOTI? Find out in our new 
+          <a target="_blank" href="https://vibe.soti.net/securityteam/Phishing_In_Review.html">
+            Phishing in Review Blog Post!
+          </a>
+        </h3><br>
+
+        <h4><strong>Have a good idea for phishing? Implement it in the IDE below and it might be used company-wide!</strong></h4><br>
+
+        <!-- Editor textarea -->
+        <textarea name="code" id="code" style="min-height:300px; flex:1; padding:10px; font-family:monospace; font-size:14px;">
+<style>
+body { font-family: Arial; background: #f9f9f9; color: #333; }
+h1 { color: red; }
+a { color: blue; text-decoration: underline; }
+</style>
+
+<h1>⚠️ Security Alert</h1>
+<p>Your account is locked. Click <a href="#">here</a> to unlock.</p>
+        </textarea>
+
+        <!-- Hidden filename field -->
+        <input type="hidden" name="filename" id="filename">
+
+        <button type="submit" style="margin-top:10px; padding:10px;">💾 Save Email</button>
+      </form>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview" style="flex:1; border:1px solid #ccc; border-radius:8px; overflow:hidden;">
+      <iframe
+        id="previewFrame"
+        sandbox
+        referrerpolicy="no-referrer"
+        loading="lazy"
+        style="width:100%; height:100%; border:none;">
+      </iframe>
+    </div>
+  </div>
+
+  <script>
+    const codeBox = document.getElementById("code");
+    const preview = document.getElementById("previewFrame");
+
+    // Sanitize function: removes scripts and disables links
+    function sanitize(input) {
+      let safe = input;
+      safe = safe.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, ""); // remove scripts
+      safe = safe.replace(/\son\w+="[^"]*"/gi, ""); // remove inline event handlers
+      safe = safe.replace(/<a\s+([^>]*)>/gi, '<a $1 href="#" style="pointer-events:none; color:gray; text-decoration:none;">'); // disable links
+      safe = safe.replace(/javascript:/gi, ""); // prevent javascript: URLs
+      return safe;
+    }
+
+    function updatePreview() {
+      const safeCode = sanitize(codeBox.value);
+      preview.srcdoc = safeCode;
+    }
+
+    codeBox.addEventListener("input", updatePreview);
+    updatePreview();
+
+    // Prompt for filename on submit
+    document.getElementById("editorForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const defaultName = "email_" + new Date().toISOString().replace(/[:.]/g, "-") + ".txt";
+      const name = prompt("Enter a filename for your email:", defaultName);
+      if (name) {
+        document.getElementById("filename").value = name.endsWith(".txt") ? name : name + ".txt";
+        this.submit();
+      }
+    });
+  </script>
+</body>
+</html>
+

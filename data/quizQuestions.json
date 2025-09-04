@@ -1,0 +1,127 @@
+[
+  {
+    "question": "Who is responsible for achieving and maintaining certifications like ISO 27001 and SOC 2 Type II?",
+    "options": ["Product Development", "IT Operations", "Security & Compliance", "Human Resources"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department handles customer security questionnaires and ensures transparency in responses?",
+    "options": ["Sales", "Customer Support", "Security & Compliance", "Marketing"],
+    "answer": "C"
+  },
+  {
+    "question": "Who oversees third-party audits to validate compliance and risk mitigation strategies?",
+    "options": ["Finance", "Legal", "Security & Compliance", "Procurement"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team aligns with emerging regulations like the EU Cyber Resilience Act?",
+    "options": ["Legal", "SLT", "Security & Compliance", "Public Relations"],
+    "answer": "C"
+  },
+  {
+    "question": "Who conducts periodic gap analyses to assess compliance readiness?",
+    "options": ["Internal Development", "Business Intelligence", "Security & Compliance", "SOTI Architecture"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department verifies the enforcement of key security controls through annual audits?",
+    "options": ["Quality Assurance", "IT Infrastructure", "Security & Compliance", "IT Systems Analyst"],
+    "answer": "C"
+  },
+  {
+    "question": "Who leads the Security Center of Excellence and manages strategic security initiatives?",
+    "options": ["Enterprise Strategic Team", "Global Operations", "Security & Compliance", "Information Technology & Services"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team reports regularly to executive leadership on security posture and risk alignment?",
+    "options": ["People & Culture", "Finance", "Security & Compliance", "Legal"],
+    "answer": "C"
+  },
+  {
+    "question": "Who enforces system hardening standards and secure configuration management?",
+    "options": ["DevOps", "IT Infrastructure", "Security & Compliance", "Technical Lead"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department integrates security into every stage of the software development lifecycle (SSDLC)?",
+    "options": ["Software Development", "Quality Assurance", "Security & Compliance", "DevOps"],
+    "answer": "C"
+  },
+  {
+    "question": "Who ensures cloud security through encryption, key management, and access controls?",
+    "options": ["Cloud Services", "Cloud Development", "Security & Compliance", "IT Infrastructure"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team defines and tests backup and recovery procedures for business continuity?",
+    "options": ["IT Operations", "Technical Support", "Security & Compliance", "Business Enablement"],
+    "answer": "C"
+  },
+  {
+    "question": "Who designs network segmentation and deploys intrusion prevention systems?",
+    "options": ["IT Operations", "Cloud Development", "Security & Compliance", "Business Operations"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department implements zero-trust architecture principles?",
+    "options": ["Identity & Access Management", "Cloud Services", "Security & Compliance", "Data Sciences"],
+    "answer": "C"
+  },
+  {
+    "question": "Who performs static code analysis and uses SAST tools to detect vulnerabilities?",
+    "options": ["Software Engineering", "Quality Assurance", "Security & Compliance", "DevOps"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team conducts regular penetration testing and manages third-party risk?",
+    "options": ["Enterprise Applications", "Legal", "Security & Compliance", "Procurement"],
+    "answer": "C"
+  },
+  {
+    "question": "Who continuously evaluates the security posture of managed service providers?",
+    "options": ["Procurement", "Public Relations", "Security & Compliance", "Professional Services"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department runs continuous vulnerability scanning across products and infrastructure?",
+    "options": ["Executive Escalations", "IT Operations", "Security & Compliance", "Quality Assurance"],
+    "answer": "C"
+  },
+  {
+    "question": "Who uses breach and attack simulation tools to test product resilience?",
+    "options": ["Performance Testing", "Product Management", "Security & Compliance", "DevOps"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team manages the incident response plan and threat monitoring?",
+    "options": ["Business Enablement", "IT Operations", "Security & Compliance", "Legal"],
+    "answer": "C"
+  },
+  {
+    "question": "Who conducts post-incident reviews and root-cause analysis?",
+    "options": ["Quality Assurance", "IT Operations", "Security & Compliance", "Business Intelligence"],
+    "answer": "C"
+  },
+  {
+    "question": "Which department provides mandatory security awareness training for employees?",
+    "options": ["People & Culture", "Procurement & Facilities", "Security & Compliance", "Global Communications"],
+    "answer": "C"
+  },
+  {
+    "question": "Who runs phishing simulations and targeted training for high-risk employees?",
+    "options": ["IT Operations", "People & Culture", "Security & Compliance", "Enterprise Strategic Team"],
+    "answer": "C"
+  },
+  {
+    "question": "Which team enforces the Principle of Least Privilege and monitors access logs?",
+    "options": ["Product Management", "IT Operations", "Security & Compliance", "Operational Analytics"],
+    "answer": "C"
+  },
+  {
+    "question": "Who manages physical access controls and conducts security audits for facilities?",
+    "options": ["Procurement & Facilities", "People & Culture", "Security & Compliance", "Services"],
+    "answer": "C"
+  }
+]

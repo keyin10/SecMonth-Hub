@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>World's Easiest Quiz</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-top: 50px;
+      text-align: center;
+    }
+
+    .quiz-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: left;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    p.question {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+
+    .option {
+      margin: 0.25rem 0;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    input[type="radio"] {
+      margin-right: 0.5rem;
+    }
+
+    label:hover {
+      background: #eef0ff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #result {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+  <div class="container">
+    <h1>World's Easiest Quiz</h1>
+<p>If you thought the physical security course was easy, then you're guaranteed 100% on this one! You only get one shot at this so make it count!</p>
+
+<!-- Hint Button -->
+<button id="showHintBtn">Show Hint</button>
+
+<!-- Hidden Hint -->
+<p id="hint" style="display: none; margin-top: 10px; color: #555;">
+  Hint: The answer is always C.
+</p>
+    
+     <div class="quiz-card">
+      <form id="quizForm">
+        <% questions.forEach((q, idx) => { %>
+          <p class="question"><%= q.question %></p>
+          <% q.options.forEach((opt, optIdx) => {
+               const letter = String.fromCharCode(65 + optIdx); // 0->A, 1->B, 2->C, 3->D
+          %>
+            <div class="option">
+              <label>
+                <input type="radio" name="q<%= idx %>" value="<%= letter %>" required>
+                <%= opt %>
+              </label>
+            </div>
+          <% }) %>
+        <% }) %>
+
+        <button type="submit">Submit Quiz</button>
+      </form>
+
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('quizForm');
+    const resultDiv = document.getElementById('result');
+    const button = document.getElementById('showHintBtn');
+    const hint = document.getElementById('hint');
+
+  button.addEventListener('click', () => {
+    // Toggle the hint visibility
+    if (hint.style.display === 'none') {
+      hint.style.display = 'block';
+      button.textContent = 'Hide Hint'; // Optional: toggle button text
+    } else {
+      hint.style.display = 'none';
+      button.textContent = 'Show Hint';
+    }
+  });
+
+     form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const answers = {};
+      formData.forEach((value, key) => { answers[key] = value; });
+
+      console.log('Submitting answers:', answers);
+
+      try {
+        const res = await fetch('/ezquiz/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ answers })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          resultDiv.textContent = `🎉 ${data.message}`;
+          form.querySelectorAll('input, button').forEach(el => el.disabled = true);
+        } else {
+          resultDiv.textContent = `❌ ${data.message}`;
+        }
+      } catch (err) {
+        console.error(err);
+        resultDiv.textContent = "⚠️ Error submitting quiz.";
+      }
+    });
+
+    // Dropdown toggle from header
+    function toggleDropdown() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.user-avatar')) {
+        var dropdown = document.getElementById('userDropdown');
+        if (dropdown && dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    };
+  </script>
+</body>
+</html>
+

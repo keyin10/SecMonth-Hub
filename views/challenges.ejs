@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Security Challenges Portal</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+
+    h1 {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .challenge-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .challenge-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .challenge-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+    .challenge-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #667eea;
+    }
+    .challenge-desc {
+      flex-grow: 1;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .welcome-msg {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .user-menu {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      cursor: pointer;
+      padding: 6px 12px;
+      min-height: 25px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 9999px;
+      font-weight: bold;
+      user-select: none;
+      transition: background-color 0.2s;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 140px;
+      z-index: 999;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f0f0f0;
+    }
+
+  </style>
+</head>
+<%- include('partials/header') %>
+
+<body>
+    <h1>Security Challenges</h1>
+  <% if (user) { %>
+    <div class="welcome-msg">Welcome back, <%= user.email.split('@')[0] %>! Select a challenge to start.</div>
+  <% } else { %>
+    <div class="welcome-msg">Welcome! Please log in to track your points and progress.</div>
+  <% } %>
+
+  <div class="challenge-list">
+    <% challenges.forEach(challenge => { %>
+      <a href="<%= challenge.url %>" class="challenge-card">
+        <div class="challenge-name"><%= challenge.name %></div>
+        <div class="challenge-desc"><%= challenge.description %></div>
+      </a>
+    <% }); %>
+  </div>
+  
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("userDropdown");
+      dropdown.classList.toggle("show");
+    }
+
+    document.addEventListener("click", function (event) {
+      const avatar = document.querySelector(".user-avatar");
+      const dropdown = document.getElementById("userDropdown");
+      if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
+

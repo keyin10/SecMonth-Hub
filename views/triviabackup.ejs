@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Trivia</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+  <h1>Daily Trivia</h1>
+  <p><%= question.question %></p>
+  <form id="triviaForm">
+    <% question.options.forEach(function(opt) { 
+         const letter = opt.charAt(0); %>
+      <div>
+        <label>
+          <input type="radio" name="answer" value="<%= letter %>" required>
+          <%= opt %>
+        </label>
+      </div>
+    <% }); %>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('triviaForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const answer = formData.get('answer');
+
+      const res = await fetch('/trivia/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        resultDiv.textContent = data.message;
+        form.querySelectorAll('input, button').forEach(el => el.disabled = true);
+      } else {
+        resultDiv.textContent = data.message;
+      }
+    });
+  </script>
+</body>
+</html>
+

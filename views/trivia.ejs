@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Daily Trivia</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .triviacard {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      margin: 0 auto; /* center horizontally */
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    p.question {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .option {
+      margin: 0.5rem 0;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    input[type="radio"] {
+      margin-right: 0.75rem;
+    }
+
+    label:hover {
+      background: #eef0ff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #result {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .container {
+      text-align: center;
+      padding-top: 50px;
+    }
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+  <div class="container">
+    <h1>Daily Policy Trivia</h1>
+
+    <div class="triviacard">
+      <p class="question"><%= question.question %></p>
+
+      <form id="triviaForm">
+        <% question.options.forEach(function(opt) { 
+             const letter = opt.charAt(0); %>
+          <div class="option">
+            <label>
+              <input type="radio" name="answer" value="<%= letter %>" required>
+              <%= opt %>
+            </label>
+          </div>
+        <% }); %>
+        <button type="submit">Submit</button>
+      </form>
+
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('triviaForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const answer = formData.get('answer');
+
+      const res = await fetch('/trivia/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer })
+      });
+
+      const data = await res.json();
+      resultDiv.textContent = data.message;
+
+      if (data.success) {
+        form.querySelectorAll('input, button').forEach(el => el.disabled = true);
+      }
+    });
+
+    function toggleDropdown() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.user-avatar')) {
+        var dropdown = document.getElementById('userDropdown');
+        if (dropdown && dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    };
+  </script>
+</body>
+</html>
+

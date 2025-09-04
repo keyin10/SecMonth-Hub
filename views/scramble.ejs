@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Security Wordle</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* adjusts for header height */
+  padding: 20px;
+}
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    #scrambled-word {
+      font-weight: bold;
+      font-size: 3em;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      font-family: 'Courier New', monospace;
+      color: #4a5568;
+    }
+    input {
+      font-size: 1.5em;
+      padding: 15px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 15px;
+      border: 3px solid #ddd;
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Courier New', monospace;
+    }
+    button {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    button:hover {
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
+    
+    }
+    
+    #message {
+      font-size: 1.3em;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+
+    .header {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .points-badge {
+      background: linear-gradient(45deg, #ff6b6b, #ffa726);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+.user-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+
+.user-avatar {
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 9999px;
+  font-weight: bold;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 140px;
+  z-index: 999;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+</style>
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+
+<div class="main">
+  <div class="container">
+    <p>🔐 Unscramble today's cybersecurity word:</p>
+    <div id="scrambled-word" style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"></div>
+<!--    <input type="text" id="guess" placeholder="Your guess here" />-->
+	<input 
+	  type="text" 
+	  id="guess" 
+	  name="guess" 
+	  placeholder="Your guess here" 
+	  autocomplete="off"/>
+    <br/>
+    <button onclick="submitGuess()">Submit</button>
+    <p id="message"></p>
+  </div>
+</div>
+<script>
+  const scrambledWord = "<%= scrambled %>";
+  const correctWord = "<%= answer %>";
+  let attempts = 0;
+
+  document.getElementById('scrambled-word').textContent = scrambledWord;
+
+  function submitGuess() {
+    const input = document.getElementById('guess');
+    const guess = input.value.trim().toUpperCase();
+    const message = document.getElementById('message');
+
+    if (!guess) {
+      message.textContent = "❗ Please enter a guess.";
+      return;
+    }
+
+    attempts++;
+
+    if (guess === correctWord) {
+      message.textContent = `🎉 Correct! You earned points!`;
+
+      fetch('/wordunscramble/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attemptCount: attempts })
+      })
+      .then(res => res.json())
+      .then(data => {
+        message.textContent += ` You earned ${data.pointsAwarded} points!`;
+      })
+      .catch(() => {
+        message.textContent += " But we couldn't update your points.";
+      });
+
+      input.disabled = true;
+      document.querySelector('button').disabled = true;
+    } else {
+      message.textContent = `❌ Incorrect, try again!`;
+    }
+
+    input.value = '';
+    input.focus();
+  }
+
+  document.getElementById('guess').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitGuess();
+    }
+  });
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById("userDropdown");
+    dropdown.classList.toggle("show");
+  }
+
+  document.addEventListener("click", function (event) {
+    const avatar = document.querySelector(".user-avatar");
+    const dropdown = document.getElementById("userDropdown");
+    if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+</script>
+
+</body>
+</html>
+

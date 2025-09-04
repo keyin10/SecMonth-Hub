@@ -1,0 +1,85 @@
+<style>
+.user-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.user-avatar {
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 9999px;
+  font-weight: bold;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 140px;
+  z-index: 999;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+</style>
+
+<header class="header">
+  <div class="header-content">
+    <a style="text-decoration: none;" href="/" class="logo">🛡️  SOTI Cybersecurity Awareness Month (CAM)</a> 
+
+    <% if (user) { %>
+    <div class="user-info user-menu">
+      <div class="points-badge">🏆 <%= user.points %> Points</div>
+      <div class="user-avatar" onclick="toggleDropdown()">
+        👋 Welcome, <%= user.email.split('@')[0] %> ▼
+      </div>
+      <div id="userDropdown" class="dropdown-content">
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="user-info">
+      <a href="/login" class="btn btn-primary">Login</a>
+      <a href="/register" class="btn btn-primary">Register</a>
+    </div>
+    <% } %>
+  </div>
+
+  <br>
+
+  <div class="nav-tabs">
+    <a style="text-decoration: none;" href="/challenges"><div class="nav-tab">🎮 All Challenges</div></a>
+    <a style="text-decoration: none;" href="/"><div class="nav-tab">🚩 Capture The Flag</div></a>
+    <a style="text-decoration: none;" href="/leaderboard"><div class="nav-tab">🏆 Leaderboard</div></a>
+    <a style="text-decoration: none;" href="/editor"><div class="nav-tab">🎣 Make a Phish</div></a>
+    <a style="text-decoration: none;" href="/imageupload"><div class="nav-tab">🖼️ Artwork Upload</div></a>
+    <a style="text-decoration: none;" href="/aisongs"><div class="nav-tab">♫ Music Upload</div></a>
+  </div>
+</header>
+

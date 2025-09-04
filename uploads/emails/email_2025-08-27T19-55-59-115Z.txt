@@ -1,0 +1,9 @@
+<style>
+body { font-family: Arial; background: #f9f9f9; color: #333; }
+h1 { color: red; }
+a { color: blue; text-decoration: underline; }
+</style>
+
+<h1>⚠️ Security Alert</h1>
+<p>Your account is locked. Click <a href="#">here</a> to unlock.</p>
+        

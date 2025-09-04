@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SOTI Security Month 2025</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+
+	.modal {
+	  display: none; 
+	  position: fixed; 
+	  z-index: 1000; 
+	  padding-top: 60px; 
+	  left: 0; 
+	  top: 0;
+	  width: 100%; 
+	  height: 100%; 
+	  overflow: auto;
+	  background-color: rgba(0,0,0,0.9);
+	}
+
+	.modal-content {
+	  margin: auto;
+	  display: block;
+	  max-width: 90%;
+	  max-height: 80vh;
+	  border-radius: 10px;
+	  box-shadow: 0 0 20px rgba(255,255,255,0.5);
+	}
+
+	.close {
+	  position: absolute;
+	  top: 15px;
+	  right: 35px;
+	  color: #fff;
+	  font-size: 40px;
+	  font-weight: bold;
+	  cursor: pointer;
+	}
+	.close:hover {
+	  color: #bbb;
+	}
+
+
+	.user-menu {
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-end;
+	  gap: 12px;
+	}
+
+
+	.user-avatar {
+	  cursor: pointer;
+	  padding: 6px 12px;
+	  min-height: 25px;
+	  background: linear-gradient(135deg, #667eea, #764ba2);
+	  color: white;
+	  border-radius: 9999px;
+	  font-weight: bold;
+	  user-select: none;
+	  transition: background-color 0.2s;
+	}
+
+	.dropdown-content {
+	  display: none;
+	  position: absolute;
+	  top: 100%;
+	  right: 0;
+	  margin-top: 4px;
+	  background-color: white;
+	  border: 1px solid #ccc;
+	  border-radius: 8px;
+	  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	  min-width: 140px;
+	  z-index: 999;
+	}
+
+	.dropdown-content.show {
+	  display: block;
+	}
+
+	.dropdown-content a {
+	  display: block;
+	  padding: 10px;
+	  color: #333;
+	  text-decoration: none;
+	}
+
+	.dropdown-content a:hover {
+	  background-color: #f0f0f0;
+	}
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+<div class="countdown">
+<h2>🚀 Security Month Countdown</h2>
+
+<div class="countdown-display">
+<div class="countdown-item"><span class="countdown-number" id="days">12</span> <span>Days</span></div>
+
+<div class="countdown-item"><span class="countdown-number" id="hours">08</span> <span>Hours</span></div>
+
+<div class="countdown-item"><span class="countdown-number" id="minutes">45</span> <span>Minutes</span></div>
+
+<div class="countdown-item"><span class="countdown-number" id="seconds">23</span> <span>Seconds</span></div>
+</div>
+</div>
+
+<div class="main-container">
+<div class="content-area">
+<div class="card">
+ <a style="text-decoration: none;" href="/imageupload"> <h3>🖼️ Artwork Showcase</h33> </a>
+  <div class="image-gallery">
+    <% if (Array.isArray(images) && images.length > 0) { %>
+      <% images.forEach(img => { %>
+        <div class="gallery-item">
+          <img src="<%= img.path %>" alt="<%= img.title %>" style="max-width: 100%; border-radius: 10px;" />
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>No images uploaded yet.</p>
+    <% } %>
+  </div>
+
+<a style="text-decoration: none;" href="/imageupload">  <div class="upload-area" style="margin-top: 1.5rem;">
+    <div>📤 Upload your security themed artwork here</div>
+    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+      Supported: JPG, PNG, GIF | Max 10MB
+    </div>
+    <button class="btn btn-primary" style="margin-top: 1rem;">Upload</button>
+  </div></a>
+</div>
+
+    <!-- Song Gallery Card -->
+    <div class="card">
+    <a style="text-decoration: none;" href="/aisongs"><h3>🎶 Song Gallery</h3></a>
+      <div class="song-gallery" style="display: flex; flex-direction: column; gap: 1rem;">
+        <% if (Array.isArray(songs) && songs.length > 0) { %>
+          <% songs.forEach(song => { %>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: linear-gradient(45deg, #f8f9ff, #e6f2ff); border-radius: 10px; width: 95%;">
+              <div>
+                <strong>🎵 <%= song.title %></strong><br />
+                <small>by <%= song.submitted_by %></small>
+              </div>
+              <audio controls style="width: 180px; height: 30px;">
+                <source src="<%= song.path %>" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p>No songs uploaded yet.</p>
+        <% } %>
+      </div>
+
+      <a href="/aisongs" style="text-decoration: none;">
+        <div class="upload-area" style="margin-top: 1.5rem; padding: 1rem; border: 1px dashed #ccc; border-radius: 10px; text-align: center;">
+          <div>📤 Upload your AI-generated security jams</div>
+          <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+            Supported: MP3 | Max 30MB
+          </div>
+          <button class="btn btn-primary" style="margin-top: 1rem;">Upload Song</button>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+
+<div class="sidebar">
+<div class="daily-challenges">
+  <h3 style="margin-bottom: 1rem;">
+       <a href="/challenges" style="text-decoration: none; color: inherit;">🎯 Daily Challenges</a>
+  </h3>
+
+<div class="challenge-list">
+<a href="/wordle" style="text-decoration:none;"><div class="challenge-item challenge-completed"><span>✅ Security Wordle</span> <span class="challenge-points">+50</span></div></a>
+
+<a href="/emoji" style="text-decoration:none;"><div class="challenge-item"><span>🧩 EmojiSec</span> <span class="challenge-points">+75</span></div></a>
+
+<a href="/wordunscramble" style="text-decoration:none;"><div class="challenge-item"><span>🔤 Word Unscramble</span> <span class="challenge-points">+50</span></div></a>
+
+</div>
+</div>
+
+<!-- Fullscreen Image Modal -->
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+
+<div class="security-tip">
+  <h4 style="margin-bottom: 0.5rem;">💡 Today's Security Tip</h4>
+  <p id="tip-text" style="font-size: 0.9rem; line-height: 1.4;">
+    Loading tip...
+  </p>
+</div>
+
+<div class="leaderboard">
+  <h3 style="margin-bottom: 1rem;">
+       <a href="/leaderboard" style="text-decoration: none; color: inherit;">🏆 Top Contributors</a>
+  </h3>
+
+  <% leaderboard.forEach((entry, index) => { %>
+    <div class="leaderboard-item">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="leaderboard-rank"><%= index + 1 %></div>
+
+        <div><strong><%= entry.email.split('@')[0] %></strong></div>
+      </div>
+
+      <div style="font-weight: bold; color: #667eea;"><%= entry.points %> pts</div>
+    </div>
+  <% }); %>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const endDate = new Date('2025-10-01').getTime();
+            const distance = endDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+
+        // Challenge interactions
+        document.querySelectorAll('.challenge-item:not(.challenge-completed)').forEach(item => {
+            item.addEventListener('click', function() {                
+            });
+        });
+
+        // Gallery item interactions
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+            });
+        });
+	
+	// Dropdown toggle for user logout
+	function toggleDropdown() {
+		const dropdown = document.getElementById('userDropdown');
+		if (dropdown) {
+			dropdown.classList.toggle('show');
+                }
+        }
+	
+	window.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('userDropdown');
+        const avatar = document.querySelector('.user-avatar');
+		if (!avatar || !dropdown) return;
+			if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+				dropdown.classList.remove('show');
+		}
+	});
+
+//Security Tip
+fetch('/tips.json')
+    .then(response => response.json())
+    .then(tips => {
+      const day = new Date().getDate();
+      const tip = tips[(day - 1) % tips.length];
+      document.getElementById('tip-text').textContent = tip;
+    })
+    .catch(error => {
+      console.error('Error loading tips:', error);
+      document.getElementById('tip-text').textContent = 'Unable to load tip today.';
+    });
+
+
+  // Get modal elements
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.querySelector(".close");
+
+  // Attach click events to gallery images
+  document.querySelectorAll(".gallery-item img").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.style.display = "block";
+      modalImg.src = img.src;
+    });
+  });
+
+  // Close when clicking X
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Close when clicking outside image
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+    </script>
+
+<p>&nbsp;</p>
+</body>
+</html>
+

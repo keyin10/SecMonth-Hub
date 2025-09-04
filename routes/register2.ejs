@@ -1,0 +1,58 @@
+const express = require('express');
+const bcrypt = require('bcrypt');
+const db = require('../db/db');
+const crypto = require('crypto');
+require('dotenv').config();
+
+const router = express.Router();
+const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, 'hex'); // 32 bytes
+const algorithm = 'aes-256-cbc';
+
+function encryptEmail(email) {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, ENCRYPTION_KEY, iv);
+    let encrypted = cipher.update(email, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
+}
+
+router.get('/', (req, res) => {
+   res.render('register', { error: null, success: null, email: '' });
+});
+
+router.post('/', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  // Only allow soti.net emails
+  if (!email.endsWith('@soti.net')) {
+    return res.render('register', {
+      error: 'Please register with a valid @soti.net email address.',
+      success: null,
+      email: email // keep email typed so far
+    });
+  }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = 'INSERT INTO users (email, password) VALUES (?, ?)';
+    db.run(sql, [email, hashedPassword], function(err) {
+      if (err) {
+        if (err.message.includes('UNIQUE constraint failed')) {
+          return res.status(409).json({ error: 'Email already registered' });
+        }
+        return res.status(500).json({ error: 'Database error' });
+      }
+
+      res.status(201).json({ message: 'User registered', userId: this.lastID });
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+module.exports = router;
+

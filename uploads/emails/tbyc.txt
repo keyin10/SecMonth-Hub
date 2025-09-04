@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Awareness Email</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+  .header {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  .content {
+    padding: 20px;
+  }
+  .content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  .cta-button {
+    display: inline-block;
+    background-color: #667eea;
+    color: white !important;
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .footer {
+    background-color: #f4f4f7;
+    color: #666;
+    text-align: center;
+    font-size: 12px;
+    padding: 15px;
+  }
+  @media only screen and (max-width: 620px) {
+    .container {
+      margin: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚨 Think Before You Click!</h1>
+    </div>
+    <div class="content">
+      <p>Hi Team,</p>
+      <p>Cyber threats are everywhere—even in your inbox. 🕵️‍♂️ Phishing emails often look legitimate but can compromise our systems and sensitive information. Here’s what to watch out for:</p>
+      <ul>
+        <li>Unexpected emails asking for <strong>passwords or personal info</strong></li>
+        <li>Strange links or attachments from <strong>unknown senders</strong></li>
+        <li>Messages that create <strong>urgency or panic</strong></li>
+      </ul>
+      <p><strong>Remember:</strong> If it looks suspicious, report it immediately using our internal <a href="#" class="cta-button">Security Alert Portal</a>. Don’t click, don’t reply—just report!</p>
+      <p>Let’s keep SOTI safe. Together, small caution today prevents big breaches tomorrow.</p>
+      <p>Stay safe,<br><strong>The Security Team</strong></p>
+    </div>
+    <div class="footer">
+      &copy; 2025 SOTI Inc. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

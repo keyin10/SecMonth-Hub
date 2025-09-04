@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>World's Easiest Quiz</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .triviacard {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+      padding: 2rem;
+      margin: 0 auto;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+      text-align: center;
+    }
+
+    .question-block {
+      margin-bottom: 1rem;
+    }
+
+    .question-block p {
+      font-weight: bold;
+      color: #555;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    label:hover {
+      background: #eef0ff;
+    }
+
+    input[type="radio"] {
+      margin-right: 0.75rem;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #result {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .container {
+      text-align: center;
+      padding-top: 50px;
+    }
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+  <div class="container">
+    <h1>World's Easiest Quiz</h1>
+
+    <div class="triviacard">
+      <form id="ezQuizForm">
+        <% questions.forEach((q, idx) => { %>
+          <div class="question-block">
+            <p><%= idx + 1 %>. <%= q.question %></p>
+            <% q.options.forEach(opt => { const letter = opt.charAt(0); %>
+              <label>
+                <input type="radio" name="q<%= idx %>" value="<%= letter %>" required>
+                <%= opt %>
+              </label>
+            <% }) %>
+          </div>
+          <hr />
+        <% }) %>
+
+        <button type="submit">Submit Quiz</button>
+      </form>
+
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('ezQuizForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const answers = {};
+
+      formData.forEach((value, key) => {
+        answers[key] = value;
+      });
+
+      const res = await fetch('/ezquiz/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers })
+      });
+
+      const data = await res.json();
+      resultDiv.textContent = data.message;
+
+      if (data.success) {
+        form.querySelectorAll('input, button').forEach(el => el.disabled = true);
+      }
+    });
+
+    function toggleDropdown() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.user-avatar')) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown && dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    };
+  </script>
+</body>
+</html>
+

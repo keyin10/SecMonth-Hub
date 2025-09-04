@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Full Leaderboard - SOTI Security Month</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+.user-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+
+.user-avatar {
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 9999px;
+  font-weight: bold;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 140px;
+  z-index: 999;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+    .leaderboard-page {
+      max-width: 700px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .leaderboard-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .leaderboard-rank {
+      font-weight: bold;
+      width: 2rem;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .leaderboard-email {
+      flex-grow: 1;
+      margin-left: 1rem;
+    }
+
+    .leaderboard-points {
+      font-weight: bold;
+      color: #667eea;
+    }
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+  <main class="leaderboard-page">
+    <h2 style="text-align: center; margin-bottom: 2rem;">🏅 Standings</h2>
+
+    <% leaderboard.forEach((entry, index) => { %>
+      <div class="leaderboard-item">
+        <div class="leaderboard-rank"><%= index + 1 %></div>
+        <div class="leaderboard-email"><strong><%= entry.email.split('@')[0] %></strong></div>
+        <div class="leaderboard-points"><%= entry.points %> pts</div>
+      </div>
+    <% }) %>
+  </main>
+</body>
+<script>
+        // Dropdown toggle for user logout
+        function toggleDropdown() {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown) {
+                        dropdown.classList.toggle('show');
+                }
+        }
+
+        window.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('userDropdown');
+        const avatar = document.querySelector('.user-avatar');
+                if (!avatar || !dropdown) return;
+                        if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+                                dropdown.classList.remove('show');
+                }
+        });
+
+    </script>
+</html>
+

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SOTI Security Month 2025</title>
+  <link rel="stylesheet" href="/css/styles.css">
+        <style type="text/css">
+		* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .points-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+ 
+       <-- .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+		
+		.main-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    }
+		!-->
+ .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+		
+
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 2rem;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      gap: 10px;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    .tile {
+      width: 60px;
+      height: 60px;
+      font-size: 2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #f1f1f1;
+      border: 2px solid #ddd;
+    }
+
+    .correct { background: #4CAF50; color: white; }
+    .present { background: #FF9800; color: white; }
+    .absent  { background: #999; color: white; }
+
+    .input-section {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+
+    input[type="text"] {
+      padding: 12px 16px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 180px;
+      text-transform: uppercase;
+    }
+
+    button {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      min-height: 40px;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .tile {
+        width: 45px;
+        height: 45px;
+        font-size: 1.4em;
+      }
+
+      #board {
+        grid-template-columns: repeat(5, 45px);
+        gap: 6px;
+      }
+
+      input[type="text"] {
+        width: 140px;
+      }
+    }
+
+
+
+<-- end of paste !-->
+		
+        .content-area {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+		
+        .challenge-completed {
+            background: linear-gradient(45deg, #c8e6c9, #a5d6a7);
+            border-left-color: #4caf50;
+        }
+
+        .challenge-points {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .countdown-display {
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+        .register-container {
+            max-width: 450px;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .register-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .register-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        .success-message {
+            background: linear-gradient(45deg, #e8f5e8, #c8e6c9);
+            color: #2e7d32;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4caf50;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
+        }
+
+        .welcome-icon {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+
+.user-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+
+.user-avatar {
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 9999px;
+  font-weight: bold;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 140px;
+  z-index: 999;
+}
+
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="header-content">
+    <a style="text-decoration: none;" href="/" class="logo">🛡️ SOTI Security Month 2025</a>
+
+    <% if (user) { %>
+    <div class="user-info user-menu">
+      <div class="points-badge">🏆 <%= user.points %> Points</div>
+      <div class="user-avatar" onclick="toggleDropdown()">
+        👋 Welcome, <%= user.email.split('@')[0] %> ▼
+      </div>
+      <div id="userDropdown" class="dropdown-content">
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="user-info">
+      <a href="/login" class="btn btn-primary">Login</a>
+      <a href="/register" class="btn btn-primary">Register</a>
+    </div>
+    <% } %>
+  </div>
+</header>
+
+<div class="main-container">
+<div class="content-area">
+<div class="nav-tabs">
+
+<a style="text-decoration: none;" href="/challenges"><div class="nav-tab">🎮 All Challenges</div></a>
+
+<a style="text-decoration: none;" href="/"><div class="nav-tab">🚩 Capture The Flag</div></a>
+
+<a style="text-decoration: none;" href="/leaderboard"><div class="nav-tab">🏆 Leaderboard</div></a>
+
+<a style="text-decoration: none;" href="/make-a-phish"><div class="nav-tab">🎣 Make a Phish</div></a>
+
+<a style="text-decoration: none;" href="/aisongs"><div class="nav-tab">🎵 AI Music Zone</div></a>
+
+<a style="text-decoration: none;" href="/imageupload"><div class="nav-tab">🖼️ AI Image Upload</div></a>
+
+</div>
+
+  <div class="main-container">
+    <h1>Security Wordle</h1>
+    <div class="subtitle">Day <span id="dayNumber"></span> — Guess todays cybersecurity word</div>
+
+    <div id="board"></div>
+
+    <div class="input-section">
+      <input type="text" id="guessInput" maxlength="5" placeholder="Enter word" />
+      <button onclick="submitGuess()">Submit</button>
+    </div>
+
+    <div id="message">You have 6 attempts. Good luck!</div>
+  </div>
+  <script>
+        const wordList = [
+        "phish", "patch", "token", "scans", "spoof", "debug", "proxy", "virus",
+        "azure", "risks", "hacks", "bytes", "siems", "alert", "cloud", "dmarc",
+        "input", "log4j", "leaks", "email", "admin", "cisos", "token", "agent",
+        "kyber", "audit", "threat", "cyber", "admin", "watch", "alert"
+        ];
+    const today = new Date();
+    const day = today.getDate();
+    document.getElementById('dayNumber').textContent = day;
+    const targetWord = wordList[day - 1] || "token";
+
+    let attempts = [];
+
+    function updateBoard() {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+
+      attempts.forEach(word => {
+        const result = Array(5).fill('absent');
+        const target = targetWord.split('');
+        const guess = word.split('');
+        const letterCount = {};
+
+        for (let i = 0; i < 5; i++) {
+          if (guess[i] === target[i]) {
+            result[i] = 'correct';
+            target[i] = null;
+          } else {
+            letterCount[target[i]] = (letterCount[target[i]] || 0) + 1;
+          }
+        }
+
+        for (let i = 0; i < 5; i++) {
+          if (result[i] !== 'correct' && letterCount[guess[i]] > 0) {
+            result[i] = 'present';
+            letterCount[guess[i]]--;
+          }
+        }
+        for (let i = 0; i < 5; i++) {
+          const tile = document.createElement('div');
+          tile.className = `tile ${result[i]}`;
+          tile.textContent = guess[i];
+          board.appendChild(tile);
+        }
+      });
+
+      for (let i = attempts.length; i < 6; i++) {
+        for (let j = 0; j < 5; j++) {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          board.appendChild(tile);
+                          }
+      }
+    }
+
+    function submitGuess() {
+      const input = document.getElementById('guessInput');
+      const guess = input.value.toLowerCase();
+
+      if (guess.length !== 5) {
+        document.getElementById('message').textContent = '❗ Enter a 5-letter word.';
+        return;
+      }
+
+      attempts.push(guess);
+      input.value = '';
+      updateBoard();
+
+      if (guess === targetWord) {
+        document.getElementById('message').textContent = '🎉 Correct! Points incoming!';
+        document.getElementById('guessInput').disabled = true;
+
+        fetch('/wordle/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ won: true, attemptCount: attempts.length })
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('message').textContent = `🎉 You earned ${data.pointsAwarded} points!`;
+        })
+        .catch(() => {
+          document.getElementById('message').textContent = '✅ Word correct, but points not updated.';
+        });
+
+      } else if (attempts.length >= 6) {
+        document.getElementById('message').textContent = `💀 Game Over. The word was: ${targetWord.toUpperCase()}`;
+        document.getElementById('guessInput').disabled = true;
+      } else {
+        document.getElementById('message').textContent = `${6 - attempts.length} attempts remaining.`;
+      }
+    }
+
+    document.getElementById('guessInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') submitGuess();
+    });
+    updateBoard();
+
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("userDropdown");
+      dropdown.classList.toggle("show");
+    }
+
+    document.addEventListener("click", function (event) {
+      const avatar = document.querySelector(".user-avatar");
+      const dropdown = document.getElementById("userDropdown");
+      if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.remove("show");
+      }
+    });
+
+</script>
+</body>
+</html>
+

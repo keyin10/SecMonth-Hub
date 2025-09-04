@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Guess the Cyber Term (Emoji)</title>
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+.user-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+
+.user-avatar {
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 9999px;
+  font-weight: bold;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 140px;
+  z-index: 999;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+
+  </style>
+</head>
+<%- include('partials/header') %>
+
+<body>
+  <div class="container" style="text-align:center; padding-top: 50px;">
+    <h1>🔐 Emoji Cyber Challenge</h1>
+
+      <div style="font-size: 3rem; margin: 20px;"><%= emojis %></div>
+
+      <% if (message) { %>
+        <p style="color: red;"><%= message %></p>
+      <% } %>
+
+      <form method="POST" action="/emoji">
+        <input type="text" name="guess" placeholder="Enter your guess..." required style="padding: 10px; font-size: 1.2rem;" />
+        <button type="submit" style="padding: 10px 20px; font-size: 1.2rem;">Submit</button>
+      </form>
+  </div>
+<script>
+    function toggleDropdown() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.user-avatar')) {
+        var dropdown = document.getElementById('userDropdown');
+        if (dropdown && dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    };
+  </script>
+
+</body>
+</html>
+

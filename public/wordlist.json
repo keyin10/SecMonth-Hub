@@ -1,0 +1,6 @@
+   const wordList = [
+        "phish", "patch", "token", "scans", "spoof", "debug", "proxy", "virus",
+        "azure", "risks", "hacks", "bytes", "siems", "alert", "cloud", "dmarc",
+        "input", "log4j", "leaks", "email", "admin", "cisos", "nonce", "agent",
+        "kyber", "audit", "scams", "cyber", "ports", "watch", "shell"
+        ];

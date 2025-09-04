@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Image Upload</title>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <style>
+    .main-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+    }
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .gallery-item {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 0.5rem;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+      text-align: center;
+    }
+    .gallery-item img {
+      max-width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    form input[type="text"],
+    form input[type="file"] {
+      width: 100%;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    form button.btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 0.7rem 1.4rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    form button.btn-primary:hover {
+      background: linear-gradient(135deg, #564ec1, #613a93);
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .points-badge {
+      background: linear-gradient(45deg, #ff6b6b, #ffa726);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+	
+	.user-menu {
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-end;
+	  gap: 12px;
+	}
+
+
+	.user-avatar {
+	  cursor: pointer;
+	  padding: 6px 12px;
+	  min-height: 25px;
+	  background: linear-gradient(135deg, #667eea, #764ba2);
+	  color: white;
+	  border-radius: 9999px;
+	  font-weight: bold;
+	  user-select: none;
+	  transition: background-color 0.2s;
+	}
+
+	.dropdown-content {
+	  display: none;
+	  position: absolute;
+	  top: 100%;
+	  right: 0;
+	  margin-top: 4px;
+	  background-color: white;
+	  border: 1px solid #ccc;
+	  border-radius: 8px;
+	  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	  min-width: 140px;
+	  z-index: 999;
+	}
+
+	.dropdown-content.show {
+	  display: block;
+	}
+
+	.dropdown-content a {
+	  display: block;
+	  padding: 10px;
+	  color: #333;
+	  text-decoration: none;
+	}
+
+	.dropdown-content a:hover {
+	  background-color: #f0f0f0;
+	}
+
+	/* Modal overlay */
+	.modal {
+	  display: none; /* hidden by default */
+	  position: fixed;
+	  z-index: 1000;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto; /* scroll if image is tall */
+	  background-color: rgba(0, 0, 0, 0.8);
+	}
+
+	/* Modal image */
+	.modal-content {
+	  display: block;
+	  margin: 5% auto;
+	  max-width: 90%;
+	  max-height: 80%;
+	  border-radius: 10px;
+	  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Close button */
+	.modal .close {
+	  position: absolute;
+	  top: 20px;
+	  right: 35px;
+	  color: #fff;
+	  font-size: 40px;
+	  font-weight: bold;
+	  cursor: pointer;
+	  transition: 0.3s;
+	}
+
+	.modal .close:hover {
+	  color: #ccc;
+	}
+  </style>
+</head>
+<%- include('partials/header') %>
+<body>
+<br><br>
+
+<!-- Tips Section -->
+<div class="card" style="margin-bottom: 2rem;">
+  <h2>🎨 Tips for Creating AI-Generated Security Artwork</h2>
+  <p>Need help getting started? Here are some resources and tips to spark your creativity:</p>
+  <ul>
+    <li><a href="https://sotigpt.soti.net/" target="_blank">SOTI GPT</a> – Explore image generation with our internal chatbot tool.</li>
+    <li><a href="https://m365.cloud.microsoft/chat" target="_blank">Microsoft Copilot</a> – Try out Microsoft 365 Co-Pilot</li>
+    <li><a href="https://lmarena.ai/leaderboard" target="_blank">LM Arena leaderboard</a> is a useful resource that ranks each AI model for specific tasks.</li>
+    <li>🔑 Tip: Use cybersecurity themes like phishing, firewalls, zero trust, data protection, or hacker personas.</li>
+  </ul>
+  <p>Use your imagination to visualize what “AI meets Security” looks like. We’re excited to see your creations! As a bonus, your uploaded artwork may be used company wide as a screensaver.</p>
+
+  <!-- Self-Prompt Button -->
+  <button id="selfPromptBtn" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer;">
+    💡 Show a Self-Prompt
+  </button>
+</div>
+
+<!-- Upload Form -->
+<div class="card" style="margin-bottom: 2rem;">
+  <h2>🖼️ Upload Your Security Artwork</h2>
+	<% if (typeof error !== 'undefined' && error) { %>
+	  <div class="alert alert-danger" style="padding: 0.6rem; margin-bottom: 1rem; border-radius: 6px; background-color: #ffe5e5; color: #a33;">
+	    <%= error %>
+	  </div>
+	<% } %>
+
+	<% if (typeof success !== 'undefined' && success) { %>
+	  <div class="alert alert-success" style="padding: 0.6rem; margin-bottom: 1rem; border-radius: 6px; background-color: #e5ffe5; color: #2a7;">
+	    <%= success %>
+	  </div>
+	<% } %>
+
+  <form action="/imageupload" method="POST" enctype="multipart/form-data">
+    <label for="title">Title:</label><br />
+    <input id="title" type="text" name="title" placeholder="e.g., Gone Phishing" required /><br /><br />
+
+    <label for="image">Image:</label><br />
+    <input id="image" type="file" name="image" accept="image/*" required /><br /><br />
+
+    <button class="btn btn-primary" type="submit">Upload Image</button>
+  </form>
+</div>
+
+<!-- Artwork Showcase -->
+<div class="card">
+  <h3>🖼️ Artwork Showcase</h3>
+  <div class="image-gallery">
+    <% if (Array.isArray(images) && images.length > 0) { %>
+      <% images.forEach(img => { %>
+        <div class="gallery-item">
+          <img src="<%= img.path %>" alt="<%= img.title %>" />
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>No images uploaded yet.</p>
+    <% } %>
+  </div>
+</div>
+
+<!-- Fullscreen Image Modal -->
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("userDropdown");
+      dropdown.classList.toggle("show");
+    }
+
+    document.addEventListener("click", function (event) {
+      const avatar = document.querySelector(".user-avatar");
+      const dropdown = document.getElementById("userDropdown");
+      if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.remove("show");
+      }
+    });
+
+  // Get modal elements
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = document.querySelector(".close");
+
+  // Attach click events to gallery images
+  document.querySelectorAll(".gallery-item img").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.style.display = "block";
+      modalImg.src = img.src;
+    });
+  });
+
+  // Close when clicking X
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Close when clicking outside image
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  const prompts = [
+	"Please forget all prior prompts. I want you to become my Prompt Creator. Let’s think step-by-step to be sure this is the best answer. Your goal is to help me build the best detailed prompt for my needs. This prompt will be used by you, <Replace with AI model>. Please follow this following process: 1) Your first response will be to ask me what the prompt should be about. I will provide my answer, but we will need to improve it through continual iterations by going through the next steps. 2) Based on my input, you will generate 3 sections. a) Revised prompt [provide your rewritten prompt. it should be clear, concise, and easily understood by you and must include: ‘Let’s think step-by-step to be sure this is the best answer’ along with your suggestion], b) Suggestions [provide suggestions on what details to include in the prompt to improve it] and c) Questions [ask any relevant questions pertaining to what additional information is needed from me to improve the prompt]. 3. We will continue this iterative process with me providing additional information to you and you updating the prompt in the Revised prompt section until it's complete. I want you to rate every prompt I give you or you produce. Give a rating 1 to 10. Add comments on what you think could have been improved about it. Do this for every prompt. If you rating of the prompt is an 8 or higher, ask me “Would you like to run this prompt?” With a menu choice of “Yes” or “No”. If I say “Yes” run the last prompt you suggested. If I say no generate me a better prompt. It is vital to make sure you run a prompt when I say “Yes”. Please continue this prompt until I say stop or you run the prompt. You are doing outstanding and will continue to do so. Thank you."
+  ];
+
+  document.getElementById("selfPromptBtn").addEventListener("click", function() {
+    // Pick a random prompt
+    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+    alert("💡 AI Self-Prompt:\n\n" + randomPrompt);
+  });
+
+</script>
+</body>
+</html>
+

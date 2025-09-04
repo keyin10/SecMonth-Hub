@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Song Upload</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .main-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+      margin-bottom: 2rem;
+    }
+    .song-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .song-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: linear-gradient(45deg, #f8f9ff, #e6f2ff);
+      border-radius: 8px;
+      width: 95%;
+    }
+    .song-info {
+      flex: 1;
+    }
+    .song-item audio {
+      width: 150px;
+      height: 32px;
+    }
+    .pagination {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    .page-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+    }
+    .page-btn:hover {
+      background: linear-gradient(135deg, #564ec1, #613a93);
+    }
+    form input[type="text"],
+    form input[type="file"] {
+      width: 95%;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    form button.btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 0.7rem 1.4rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    form button.btn-primary:hover {
+      background: linear-gradient(135deg, #564ec1, #613a93);
+    }
+  </style>
+</head>
+
+<%- include('partials/header') %>
+
+<body>
+<div class="main-container">
+
+  <!-- Tips Card -->
+  <div class="card">
+    <h2>🎵 Tips for Creating AI-Generated Music</h2>
+    <p>Here are some ideas to help you get started:</p>
+    <ul>
+      <li>Use AI tools like <a href="#" target="_blank">Find Music AI</a> or <a href="https://www.aiva.ai/" target="_blank">AIVA</a></li>
+      <li>Think security themes: cyber beats, data protection rhythms, hacker vibes</li>
+      <li>Keep your audio file under 30MB and in MP3 format</li>
+      <li>Earn 150 points for every unique song you create and upload!</li>
+    </ul>
+  </div>
+
+  <!-- Upload Form -->
+  <div class="card">
+    <h2>🎶 Upload Your AI Created Song</h2>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger" style="padding: 0.6rem; margin-bottom: 1rem; border-radius: 6px; background-color: #ffe5e5; color: #a33;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="alert alert-success" style="padding: 0.6rem; margin-bottom: 1rem; border-radius: 6px; background-color: #e5ffe5; color: #2a7;">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <form action="/aisongs" method="POST" enctype="multipart/form-data">
+      <label for="title">Title:</label><br />
+      <input id="title" type="text" name="title" placeholder="e.g., Cyber Beats" required /><br /><br />
+
+      <label for="song">Song (MP3):</label><br />
+      <input id="song" type="file" name="song" accept=".mp3" required /><br /><br />
+
+      <button class="btn btn-primary" type="submit">Upload Song</button>
+    </form>
+  </div>
+
+  <!-- Song Gallery -->
+  <div class="card">
+    <h3>🎶 Song Gallery</h3>
+    <div class="song-gallery">
+      <% songs.forEach(song => { %>
+        <div class="song-item">
+          <div class="song-info">
+            <strong>🎵 <%= song.title %></strong><br />
+            <small>by <%= song.submitted_by %></small>
+          </div>
+          <audio controls>
+            <source src="<%= song.path %>" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+        <a href="/aisongs?page=<%= currentPage - 1 %>" class="page-btn">⬅ Prev</a>
+      <% } %>
+      <span>Page <%= currentPage %> of <%= totalPages %></span>
+      <% if (currentPage < totalPages) { %>
+        <a href="/aisongs?page=<%= currentPage + 1 %>" class="page-btn">Next ➡</a>
+      <% } %>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
